@@ -1,8 +1,10 @@
 Backend:
+
 - Customer
 - Seller
 
 Customer:
+
 - Search food by geo location
 - Simple Authentication
 - Add items to the cart
@@ -10,60 +12,80 @@ Customer:
 - When an order is placed seller should be notified
 
 Seller:
+
 - Confirming Seller
 - CRUD options for an item
 - NOTIFIATION upon the process at hand
 
-
 Entities:
+
 - Item
-    . Food Name
-    . Price
-    . Description
-    . Images
-    . tags
-    . RestaurantId
+  . Food Name
+  . Price
+  . Description
+  . Images
+  . tags
+  . RestaurantId
 
 - User
-    . UserType(Buyer/Seller)
-    . Name
-    . Email
-    . Password
-    . Address
-    . Phone Number
-    . OrderId
+  . Name
+  . Email
+  . Password
+  . Address
+  . Phone Number
+
+- Address
+  . Street
+  . House no.
+  . City/Village
+  . PostalCode
+  . District
+  . State
+  . Country
+  . Lattitude
+  . Longitude
+
+-Seller
+. Name
+. Email
+. Password
+. Address
+. Phone Number
+. RestaurantId
 
 - Restaurant
-    . Name
-    . Address
-    . Contact Detail
-    . UserId(Seller)
+  . Name
+  . Address
+  . Contact Detail
+  . SellerId
 
 - Order
-    . ItemId
-    . Quantity
-    . TotalCost
-
+  . ItemId
+  . Quantity
+  . TotalCost
+  . UserId
+  . Status:enum
+  . TimeStamp
 
 API Required:
+
 - Seller Api:
-    . CRUD Items
-    . Order
+  . CRUD Items
+  . Order
 
 - Global Api:
-    . Register User for Buyer/Seller
+  . Register User for Buyer/Seller
 
 - Buyer Api:
-    . Order
-
+  . Order
 
 Actual APIs
-    /
-    /login
-    /restaurant 
-    /register
-    /cart
-    /orders
+/
+/login
+/restaurant
+/register
+/cart
+/orders
 
     /addrestaurant
     /seller/dashboard
