@@ -7,11 +7,12 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Seller {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    private String role;
     private String name;
     private String email;
     private String password;
@@ -19,5 +20,8 @@ public class User {
     @OneToOne(fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId",referencedColumnName = "id")
     private Address address;
+    @OneToOne(fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
+    @JoinColumn(name = "restaurantId",referencedColumnName = "id")
+    private Restaurant restaurant;
 
 }

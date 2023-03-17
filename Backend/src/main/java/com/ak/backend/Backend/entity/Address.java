@@ -26,7 +26,13 @@ public class Address {
 
     private String postalCode;
 
+    private Double latitude;
+
+    private Double longitude;
+
     @OneToOne(mappedBy = "address")
     private User user;
 
+    @OneToOne(mappedBy = "address")
+    private Seller seller;
 }

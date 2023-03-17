@@ -22,6 +22,8 @@ public class AddressRequest {
     private String state;
     @NotBlank(message = "Country cannot be empty")
     private String country;
+    private Double latitude;
+    private Double longitude;
     @Pattern(regexp = "^\\d{6}$",message = "Postal Code must be of 6 digits")
     private String postalCode;
 }

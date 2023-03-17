@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -37,10 +39,9 @@ public class UserServiceImpl implements UserService{
             LOGGER.error("User is already exist of email {}",userAlreadyExist.getEmail());
             throw new UserAlreadyExistException("User with email "+userRequest.getEmail()+" already exist");
         }
+        User user=mapper.map(userRequest,User.class);
         //store hash password
         String hashedPassword= userRequest.getPassword();
-        User user=mapper.map(userRequest,User.class);
-        user.setRole("BUYER");
         user.setPassword(hashedPassword);
         userRepo.save(user);
         LOGGER.info("User registered successfully of email {}",user.getEmail());
