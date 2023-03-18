@@ -12,7 +12,7 @@ public class HomeController {
         return null;
     }
 
-    @GetMapping("/:restaurantId")
+    @GetMapping("/{restaurantId}")
     public ResponseEntity<?> getRestaurantMenuItems(){
         return null;
     }

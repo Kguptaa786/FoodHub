@@ -1,5 +1,6 @@
 package com.ak.backend.Backend.handler;
 
+import com.ak.backend.Backend.exception.SellerAlreadyExistException;
 import com.ak.backend.Backend.exception.UserAlreadyExistException;
 import com.ak.backend.Backend.dto.ApiResponse;
 import com.ak.backend.Backend.service.UserServiceImpl;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class UserServiceExceptionHandler {
+public class GlobalExceptionHandler {
 
     private static final Logger LOGGER= LogManager.getLogger(UserServiceImpl.class);
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -31,6 +32,12 @@ public class UserServiceExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistException.class)
     public ResponseEntity<?> handleUserAlreadyExistException(UserAlreadyExistException e){
+        ApiResponse<?> apiResponse=new ApiResponse<>(e.getMessage(),false);
+        return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SellerAlreadyExistException.class)
+    public ResponseEntity<?> handleSellerAlreadyExistException(SellerAlreadyExistException e){
         ApiResponse<?> apiResponse=new ApiResponse<>(e.getMessage(),false);
         return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
     }

@@ -1,6 +1,7 @@
 package com.ak.backend.Backend.controller;
 
 
+import com.ak.backend.Backend.dto.ApiResponse;
 import com.ak.backend.Backend.dto.LoginCredentialRequest;
 import com.ak.backend.Backend.dto.UserRequest;
 import com.ak.backend.Backend.dto.UserResponse;
@@ -24,13 +25,16 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> loginUser(@RequestBody @Valid LoginCredentialRequest userCredential){
-        return new ResponseEntity<>(userService.loginUser(userCredential), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> loginUser(@RequestBody @Valid LoginCredentialRequest userCredential){
+        ApiResponse<UserResponse> apiResponse=new ApiResponse<>
+                ("Successfully logged in",true, userService.loginUser(userCredential));
+        return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Valid UserRequest userRequest) throws UserAlreadyExistException {
-        return new ResponseEntity<>(userService.registerUser(userRequest),HttpStatus.CREATED);
+    public ResponseEntity<?> registerUser(@RequestBody @Valid UserRequest userRequest) throws UserAlreadyExistException {
+        ApiResponse<String> apiResponse=new ApiResponse<>(userService.registerUser(userRequest),true);
+        return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
     }
 
 }
