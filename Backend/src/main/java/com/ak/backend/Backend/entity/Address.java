@@ -1,34 +1,38 @@
-package com.ak.backend.Backend.entities;
+package com.ak.backend.Backend.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @NotBlank
-    private String street;
-    @NotBlank
-    private int houseNo;
-    @NotBlank
-    private String city;
-    @NotBlank
-    private String district;
-    @NotBlank
-    private String state;
-    @NotBlank
-    private String country;
-    @NotBlank
-    private int postalCode;
 
+    private String street;
+
+    private int houseNo;
+
+    private String city;
+
+    private String district;
+
+    private String state;
+
+    private String country;
+
+    private String postalCode;
+
+    private Double latitude;
+
+    private Double longitude;
+
+    @OneToOne(mappedBy = "address")
+    private User user;
+
+    @OneToOne(mappedBy = "address")
+    private Seller seller;
 }
