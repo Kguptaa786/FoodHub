@@ -13,7 +13,7 @@ public class HomeController {
     }
 
     @GetMapping("/{restaurantId}")
-    public ResponseEntity<?> getRestaurantMenuItems(){
+    public ResponseEntity<?> getRestaurantMenuItems(@RequestParam long restaurantId){
         return null;
     }
 

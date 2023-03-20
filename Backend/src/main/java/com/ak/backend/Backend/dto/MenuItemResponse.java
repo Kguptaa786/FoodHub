@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuItemResponse {
+    private long id;
     private String name;
     private String description;
     private String price;

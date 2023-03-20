@@ -1,8 +1,11 @@
 package com.ak.backend.Backend.service;
 
 import com.ak.backend.Backend.dto.LongLatRequest;
+import com.ak.backend.Backend.dto.MenuItemResponse;
 import com.ak.backend.Backend.dto.RestaurantResponse;
+import com.ak.backend.Backend.entity.MenuItem;
 import com.ak.backend.Backend.entity.Restaurant;
+import com.ak.backend.Backend.repository.MenuItemRepo;
 import com.ak.backend.Backend.repository.RestaurantRepo;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
@@ -23,6 +26,9 @@ public class HomeServiceImpl implements HomeService{
     @Autowired
     private RestaurantRepo restaurantRepo;
 
+    @Autowired
+    private MenuItemRepo menuItemRepo;
+
     @Override
     public List<RestaurantResponse> getAllRestaurant() {
         List<Restaurant> restaurants=restaurantRepo.findAll();
@@ -37,5 +43,15 @@ public class HomeServiceImpl implements HomeService{
     @Override
     public List<RestaurantResponse> getAllNearbyRestaurant(LongLatRequest longLatReq) {
         return null;
+    }
+
+    @Override
+    public List<MenuItemResponse> getRestaurantMenuItems(long restaurantId) {
+        List<MenuItem> menuItems=menuItemRepo.findByRestaurantId(restaurantId);
+        List<MenuItemResponse> menuItemRes=new ArrayList<>();
+        for(MenuItem menuItem:menuItems){
+            menuItemRes.add(mapper.map(menuItem,MenuItemResponse.class));
+        }
+        return menuItemRes;
     }
 }
