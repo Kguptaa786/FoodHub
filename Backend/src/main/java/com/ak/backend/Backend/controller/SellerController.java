@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/seller")
 public class SellerController {
 
-    @Autowired
+    @Autowired(required = false)
     private SellerService sellerService;
 
     @PostMapping("/restaurant")

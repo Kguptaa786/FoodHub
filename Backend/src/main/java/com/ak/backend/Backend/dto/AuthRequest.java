@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginCredentialRequest {
+public class AuthRequest {
     @NotBlank(message = "Email cannot be empty")
     private String email;
     @NotBlank(message = "Password cannot be empty")

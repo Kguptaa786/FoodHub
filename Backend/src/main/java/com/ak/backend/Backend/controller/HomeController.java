@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/api")
 public class HomeController {
+
+    @GetMapping("/hello")
+    public String getHello(){
+        return "hello";
+    }
     @GetMapping("/")
     public ResponseEntity<?> getAllRestaurant(@RequestParam(defaultValue = "") String addressReq){
         return null;
