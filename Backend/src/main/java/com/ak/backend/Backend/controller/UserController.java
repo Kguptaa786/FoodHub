@@ -1,10 +1,7 @@
 package com.ak.backend.Backend.controller;
 
 
-import com.ak.backend.Backend.dto.ApiResponse;
-import com.ak.backend.Backend.dto.AuthRequest;
-import com.ak.backend.Backend.dto.UserRequest;
-import com.ak.backend.Backend.dto.UserResponse;
+import com.ak.backend.Backend.dto.*;
 import com.ak.backend.Backend.exception.UserAlreadyExistException;
 import com.ak.backend.Backend.service.UserService;
 import jakarta.validation.Valid;
@@ -27,19 +24,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody @Valid AuthRequest userCredential){
-        ApiResponse<String> apiResponse=new ApiResponse<>
-                ("Successfully logged in",true, userService.loginUser(userCredential));
+    public ResponseEntity<?> loginUser(@RequestBody @Valid AuthRequest authRequest){
+        ApiResponse<AuthResponse> apiResponse=new ApiResponse<>
+                ("Successfully logged in",true, userService.loginUser(authRequest));
         return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser(){
-        return null;
+    public String logoutUser(){
+        return "logout user";
     }
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody @Valid UserRequest userRequest) throws UserAlreadyExistException {
-        ApiResponse<String> apiResponse=new ApiResponse<>(userService.registerUser(userRequest),true);
+        ApiResponse<?> apiResponse=new ApiResponse<>
+                ("User is successfully registered",true,userService.registerUser(userRequest));
         return new ResponseEntity<>(apiResponse,HttpStatus.CREATED);
     }
 

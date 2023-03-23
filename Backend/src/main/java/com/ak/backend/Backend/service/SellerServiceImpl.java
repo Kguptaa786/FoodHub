@@ -1,8 +1,7 @@
 package com.ak.backend.Backend.service;
 
-import com.ak.backend.Backend.dto.MenuItemRequest;
-import com.ak.backend.Backend.dto.MenuItemResponse;
-import com.ak.backend.Backend.dto.SellerRequest;
+import com.ak.backend.Backend.JwtUtil.JwtService;
+import com.ak.backend.Backend.dto.*;
 import com.ak.backend.Backend.entity.MenuItem;
 import com.ak.backend.Backend.entity.Seller;
 import com.ak.backend.Backend.exception.MenuItemNotFoundException;
@@ -14,6 +13,13 @@ import com.github.dozermapper.core.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 public class SellerServiceImpl implements SellerService{
@@ -23,10 +29,29 @@ public class SellerServiceImpl implements SellerService{
     Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
     private SellerRepo sellerRepo;
 
     @Autowired
     private MenuItemRepo menuItemRepo;
+
+    @Override
+    public AuthResponse loginSeller(AuthRequest authRequest) {
+        Authentication authentication=authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(authRequest.getEmail(),authRequest.getPassword()));
+        if(!authentication.isAuthenticated()){
+            throw new UsernameNotFoundException("Invalid Credential");
+        }
+        return new AuthResponse(jwtService.generateToken(authRequest.getEmail()));
+    }
 
     @Override
     public String addRestaurant(SellerRequest sellerReq) throws SellerAlreadyExistException {
@@ -36,9 +61,7 @@ public class SellerServiceImpl implements SellerService{
             throw new SellerAlreadyExistException("User with email "+sellerReq.getEmail()+" already exist");
         }
         Seller seller=mapper.map(sellerReq,Seller.class);
-        //store hash password
-        String hashedPassword= sellerReq.getPassword();
-        seller.setPassword(hashedPassword);
+        seller.setPassword(passwordEncoder.encode(sellerReq.getPassword()));
         sellerRepo.save(seller);
         LOGGER.info("Seller registered successfully of email {} and restaurant {}",
                 seller.getEmail(),seller.getRestaurant().getName());
@@ -57,10 +80,12 @@ public class SellerServiceImpl implements SellerService{
     public MenuItemResponse updateMenuItem(long itemId, MenuItemRequest menuItemReq) throws MenuItemNotFoundException {
         MenuItem menuItem=menuItemRepo.findById(itemId);
         if(menuItem==null){
-            throw new MenuItemNotFoundException("Menu Item not found with id {}",itemId);
+            LOGGER.error("Menu Item not found with id {}",itemId);
+            throw new MenuItemNotFoundException("Menu Item not found with id ",itemId);
         }
         MenuItem updatedMenuItem=mapper.map(menuItemReq, MenuItem.class);
         menuItemRepo.save(updatedMenuItem);
+        LOGGER.info("Menu Item is updated successfully of id {}",itemId);
         return mapper.map(menuItemReq,MenuItemResponse.class);
     }
 
@@ -68,9 +93,11 @@ public class SellerServiceImpl implements SellerService{
     public String deleteMenuItem(long itemId) throws MenuItemNotFoundException {
         MenuItem menuItem=menuItemRepo.findById(itemId);
         if(menuItem==null){
+            LOGGER.error("Menu Item not found with id {}",itemId);
             throw new MenuItemNotFoundException("MenuItem not found with id {}",itemId);
         }
         menuItemRepo.deleteById(itemId);
+        LOGGER.info("Menu Item is deleted successfully of id {}",itemId);
         return "Menu Item with "+itemId+" is successfully deleted";
     }
 }

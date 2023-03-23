@@ -18,9 +18,17 @@ public class SellerController {
     @Autowired(required = false)
     private SellerService sellerService;
 
-    @PostMapping("/restaurant")
+    @PostMapping("/login")
+    public ResponseEntity<?> loginSeller(@RequestBody AuthRequest authRequest){
+        ApiResponse<?> apiResponse=new ApiResponse<>
+                ("Seller logged in successfully",true,sellerService.loginSeller(authRequest));
+        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+    }
+
+    @PostMapping("/add-restaurant")
     public ResponseEntity<?> addRestaurant(@RequestBody @Valid SellerRequest sellerReq) throws SellerAlreadyExistException {
-        ApiResponse<?> apiResponse=new ApiResponse<>(sellerService.addRestaurant(sellerReq),true );
+        ApiResponse<?> apiResponse=new ApiResponse<>
+                ("Restaurant added successfully",true ,sellerService.addRestaurant(sellerReq));
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
@@ -41,7 +49,7 @@ public class SellerController {
     @DeleteMapping("/menu-item/:itemId")
     public ResponseEntity<?> deleteMenuItem(@PathVariable long itemId) throws MenuItemNotFoundException {
         ApiResponse<?> apiResponse=new ApiResponse<>
-                (sellerService.deleteMenuItem(itemId), true);
+                ("Menu item is deleted successfully", true,sellerService.deleteMenuItem(itemId));
         return new ResponseEntity<>(apiResponse,HttpStatus.ACCEPTED);
     }
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class HomeServiceImpl implements HomeService{
 
-    private static final Logger LOGGER= LogManager.getLogger(SellerServiceImpl.class);
+    private static final Logger LOGGER= LogManager.getLogger(HomeServiceImpl.class);
 
     Mapper mapper = DozerBeanMapperBuilder.buildDefault();
 
@@ -52,6 +52,7 @@ public class HomeServiceImpl implements HomeService{
         for(MenuItem menuItem:menuItems){
             menuItemRes.add(mapper.map(menuItem,MenuItemResponse.class));
         }
+        LOGGER.info("All menu item fetches successfully restaurant id {}",restaurantId);
         return menuItemRes;
     }
 }

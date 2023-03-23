@@ -1,12 +1,12 @@
 package com.ak.backend.Backend.service;
 
-import com.ak.backend.Backend.dto.MenuItemRequest;
-import com.ak.backend.Backend.dto.MenuItemResponse;
-import com.ak.backend.Backend.dto.SellerRequest;
+import com.ak.backend.Backend.dto.*;
 import com.ak.backend.Backend.exception.MenuItemNotFoundException;
 import com.ak.backend.Backend.exception.SellerAlreadyExistException;
 
 public interface SellerService{
+
+    AuthResponse loginSeller(AuthRequest authRequest);
 
     String addRestaurant(SellerRequest sellerReq) throws SellerAlreadyExistException;
 
