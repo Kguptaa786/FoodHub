@@ -15,6 +15,5 @@ import java.util.List;
 public class RestaurantRequest {
     @NotBlank(message = "Name cannot be empty")
     private String name;
-    @NotBlank(message = "At least one image required")
     private List<String> images;
 }

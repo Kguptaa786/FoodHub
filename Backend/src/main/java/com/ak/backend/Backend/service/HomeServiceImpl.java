@@ -12,11 +12,13 @@ import com.github.dozermapper.core.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+@Service
 public class HomeServiceImpl implements HomeService{
 
     private static final Logger LOGGER= LogManager.getLogger(HomeServiceImpl.class);

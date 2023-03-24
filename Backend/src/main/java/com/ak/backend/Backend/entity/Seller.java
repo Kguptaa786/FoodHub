@@ -11,12 +11,11 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Seller implements UserDetails {
+public class Seller {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String role;
     private String name;
     private String email;
     private String password;
@@ -27,38 +26,4 @@ public class Seller implements UserDetails {
     @OneToOne(fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurantId",referencedColumnName = "id")
     private Restaurant restaurant;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public String getPassword(){
-        return this.password;
-    }
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
